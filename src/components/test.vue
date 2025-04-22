@@ -2,8 +2,8 @@
     <div>
         <button @click="sendGetCourse">Get Course</button>
         <div v-if = "courses.length > 0">
-            <div v-for = "(course, idx) in courses" :key="idx">
-                <Course :course="course" />
+            <div v-for= "course in courses" :key="course.id">
+                <Course :course = "course" />
             </div>
         </div>
     </div>
