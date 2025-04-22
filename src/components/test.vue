@@ -1,24 +1,30 @@
 <template>
     <div>
         <button @click="sendGetCourse">Get Course</button>
-        <p :style="태그속성"> {{ price }} </p>
+        <div v-if = "courses.length > 0">
+            <div v-for = "(course, idx) in courses" :key="idx">
+                <Course :course="course" />
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import { getCourseResponse } from '../services/courseService.js';
+import Course from './courseCard.vue'
+
+const courses = ref([]);
 
 const sendGetCourse = async () => {
   try {
     const response = await getCourseResponse(
       37.5, 126.9,
-      '2025-04-22 00:00', '2025-04-22 03:00',
+      '2025-04-22 22:00', '2025-04-23 00:00',
       '동대문 관광특구'
     )
-    console.log('받은 데이터:', response.data)
-    // 예시로 price 값을 수정
-    price.value = response.data.price || 1234
+    courses.value = response.data.result.courses;
+    console.log('Course data:', courses.value);
   } catch (error) {
     console.error('Error fetching course data:', error)
   }
