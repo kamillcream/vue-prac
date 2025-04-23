@@ -13,4 +13,4 @@ defineProps({
       </li>
     </ul>
   </div>
-</template>페
+</template>
