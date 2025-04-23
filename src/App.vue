@@ -1,9 +1,12 @@
 <script setup>
-import HelloWorld from './components/test.vue'
 </script>
 
 <template>
-  <HelloWorld msg="Vite + Vue" />
+  <nav>
+    <router-link to="/course">Course</router-link> |
+    <router-link to="/hello">Hello</router-link>
+  </nav>
+  <router-view />
 </template>
 
 <style scoped>
