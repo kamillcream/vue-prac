@@ -11,10 +11,13 @@
         <div class = "modal-container">
             <Modal class="modal-component" @close="switchModal">
                 <template #header>
-                    <h3>{{ selectedCourse?.places?.[0]?.name }}</h3>
+                    <h3 style="color: red">{{ selectedCourse?.places?.[0]?.name }}</h3>
                 </template>
                 <template #body>
                     <p>Details about the selected course will go here.</p>
+                    <button v-if="selectedCourse" @click="chooseCourse">
+                      선택하기
+                    </button>
                 </template>
                 <template #footer>
                     <button @click="switchModal">Close</button>
@@ -26,8 +29,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { getCourseResponse } from '../services/courseService.js';
+import { ref, toRaw } from 'vue';
+import { getCourseResponse, postChooseCourse } from '../services/courseService.js';
 import Course from '../components/courseCard.vue'
 import Modal from '../components/modal.vue';
 
@@ -39,7 +42,7 @@ const sendGetCourse = async () => {
   try {
     const response = await getCourseResponse(
       37.5, 126.9,
-      '2025-04-24 17:00', '2025-04-24 20:00',
+      '2025-04-24 20:00', '2025-04-24 23:00',
       '동대문 관광특구'
     )
     courses.value = response.data.result.courses;
@@ -59,6 +62,34 @@ const openModalWithCourse = (course) => {
     showModal.value = !showModal.value;
     console.log(selectedCourse.value);
 }
+
+const chooseCourse = () => {
+  if (!selectedCourse.value || !selectedCourse.value.places) {
+    console.warn('선택된 코스가 없거나 잘못됨');
+    return;
+  }
+
+  const request = {
+    areas: toRaw(selectedCourse.value.places),
+    courseNumber: selectedCourse.value.places.length,
+    startTime: "2025-04-24 20:00",
+    endTime: "2025-04-24 23:00",
+    isActive: false
+  };
+  console.log(request);
+  postChooseCourse(request);
+};
+
+const courseLikeRequest = (selectedCourse) => {
+  console.log(selectedCourse);
+  return {
+    areas: selectedCourse.places,
+    courseNumber: area.length,
+    startTime: "2025-04-24 20:00",
+    endTime: "2025-04-24 23:00",
+    isActive: false
+  }
+};
 </script>
 
 <style>
