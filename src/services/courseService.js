@@ -13,3 +13,8 @@ export const getCourseResponse = (lat, lon, startTime, endTime, tourspot) => {
       }
     })
   }
+
+export const postChooseCourse = (courseLikeResponse) => {
+    return api.post('/course/like',
+      courseLikeResponse)
+}
