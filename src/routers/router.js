@@ -1,10 +1,9 @@
-import { Component } from "react";
 import { createWebHistory, createRouter } from "vue-router";
 
 const routes = [
     {
       path: "/course",
-      component: () => import("../components/test.vue"),
+      component: () => import("../pages/coursePage.vue"),
     },
     {
         path: "/hello",
