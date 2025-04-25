@@ -4,7 +4,7 @@
 <template>
   <nav>
     <router-link to="/course">Course</router-link> |
-    <router-link to="/hello">Hello</router-link>
+    <router-link to="/login">Login</router-link>
   </nav>
   <router-view />
 </template>
