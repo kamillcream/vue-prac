@@ -81,7 +81,6 @@ const chooseCourse = () => {
 };
 
 const courseLikeRequest = (selectedCourse) => {
-  console.log(selectedCourse);
   return {
     areas: selectedCourse.places,
     courseNumber: area.length,

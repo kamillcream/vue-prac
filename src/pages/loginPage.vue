@@ -13,9 +13,12 @@
 <script setup>
 import { ref, toRaw } from 'vue';
 import { sendLoginRequest } from '../services/loginService'
+import { useRouter } from 'vue-router';
 
 const inputEmail = ref('');
 const inputPassword = ref('');
+
+const router = useRouter();
 
 const LoginRequest = () => {
     return {
@@ -31,8 +34,8 @@ const sendLoginRequestWithInput = () => {
             if (access) {
                 localStorage.setItem('accessToken', access);
                 console.log(access);
-            }
-            console.log(access);
+            }   
+            router.push('/course');
         }
     )
 } 
