@@ -29,20 +29,26 @@
 </template>
 
 <script setup>
-import { ref, toRaw } from 'vue';
+import { compile, ref, toRaw, computed } from 'vue';
+import { useStore } from 'vuex';
 import { getCourseResponse, postChooseCourse } from '../services/courseService.js';
 import Course from '../components/courseCard.vue'
 import Modal from '../components/modal.vue';
 
 const courses = ref([]);
 const showModal = ref(false);
-const selectedCourse = ref(null);
+const store = useStore();
+const selectedCourse = computed(() => store.state.selectedCourse)
 
+function select(course){
+  store.commit('selectCourse', course)
+  console.log("store: ", selectedCourse.value);
+}
 const sendGetCourse = async () => {
   try {
     const response = await getCourseResponse(
       37.5, 126.9,
-      '2025-04-24 20:00', '2025-04-24 23:00',
+      '2025-04-27 20:00', '2025-04-27 23:00',
       '동대문 관광특구'
     )
     courses.value = response.data.result.courses;
@@ -58,9 +64,9 @@ const switchModal = async () => {
 }
 
 const openModalWithCourse = (course) => {
-    selectedCourse.value = course;
-    showModal.value = !showModal.value;
-    console.log(selectedCourse.value);
+  select(course);
+  showModal.value = !showModal.value;
+  console.log(selectedCourse.value);
 }
 
 const chooseCourse = () => {
@@ -81,6 +87,7 @@ const chooseCourse = () => {
 };
 
 const courseLikeRequest = (selectedCourse) => {
+  console.log(selectedCourse);  
   return {
     areas: selectedCourse.places,
     courseNumber: area.length,
