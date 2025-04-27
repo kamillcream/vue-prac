@@ -3,7 +3,7 @@ import api from "./api";
 
 
 export const getCourseResponse = (lat, lon, startTime, endTime, tourspot) => {
-    return api.get('/course/get', {
+    return api.get('/courses', {
       params: {
         lat,
         lon,
@@ -12,9 +12,9 @@ export const getCourseResponse = (lat, lon, startTime, endTime, tourspot) => {
         tourspot
       }
     })
-  }
+}
 
 export const postChooseCourse = (courseLikeResponse) => {
-    return api.post('/course/like',
+    return api.post('/courses/like',
       courseLikeResponse)
 }
