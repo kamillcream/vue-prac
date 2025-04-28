@@ -6,7 +6,6 @@ defineEmits(['close']);
 </script>
 
 <template>
-    console.log(course);
   <div class="modal">
     <div class="modal-header">
       <slot name="header">

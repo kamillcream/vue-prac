@@ -1,5 +1,11 @@
 <template>
   <div>
+    <div>
+      <label for="date">날짜 선택</label>
+      <input type="date" id="date" v-model = "selectedDate"/>
+      <p>선택한 날짜: {{ selectedDate }}</p>
+      <p v-if="isPastDate">❗️과거 날짜를 선택했습니다.</p>
+    </div>
     <button @click = "sendGetCourse">Get Course</button>
     <button @click = "switchModal">switchModal</button>
     <div v-if = "courses.length > 0">
@@ -29,7 +35,7 @@
 </template>
 
 <script setup>
-import { compile, ref, toRaw, computed } from 'vue';
+import { compile, ref, toRaw, computed , watch} from 'vue';
 import { useStore } from 'vuex';
 import { getCourseResponse, postChooseCourse } from '../services/courseService.js';
 import Course from '../components/courseCard.vue'
@@ -38,6 +44,8 @@ import Modal from '../components/modal.vue';
 const courses = ref([]);
 const showModal = ref(false);
 const store = useStore();
+const selectedDate = ref('')
+const isPastDate = ref(false)
 const selectedCourse = computed(() => store.state.selectedCourse)
 
 function select(course){
@@ -85,6 +93,21 @@ const chooseCourse = () => {
   console.log(request);
   postChooseCourse(request);
 };
+
+watch(selectedDate, (newDate) => {
+  if (!newDate) {
+    isPastDate.value = false
+    return
+  }
+
+  const today = new Date()
+  const selected = new Date(newDate)
+
+  today.setHours(0, 0, 0, 0)
+  selected.setHours(0, 0, 0, 0)
+
+  isPastDate.value = selected < today
+})
 
 const courseLikeRequest = (selectedCourse) => {
   console.log(selectedCourse);  
